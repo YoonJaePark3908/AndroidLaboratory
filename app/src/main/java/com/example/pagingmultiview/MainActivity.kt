@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initData() {
         lifecycleScope.launch {
-            viewModel.getPagingList().collect {
+            viewModel.getPagingList(applicationContext).collect {
                 mainPagingAdapter.submitData(it)
             }
         }

@@ -7,15 +7,16 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pagingmultiview.databinding.ItemMainListBinding
+import com.example.pagingmultiview.model.RespTestModel
 
-class MainPagingAdapter : PagingDataAdapter<MainPagingModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class MainPagingAdapter : PagingDataAdapter<RespTestModel.MsgBody, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MainPagingModel>() {
-            override fun areItemsTheSame(oldItem: MainPagingModel, newItem: MainPagingModel): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RespTestModel.MsgBody>() {
+            override fun areItemsTheSame(oldItem: RespTestModel.MsgBody, newItem: RespTestModel.MsgBody): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: MainPagingModel, newItem: MainPagingModel): Boolean {
+            override fun areContentsTheSame(oldItem: RespTestModel.MsgBody, newItem: RespTestModel.MsgBody): Boolean {
                 return oldItem == newItem
             }
         }
@@ -40,7 +41,7 @@ class MainPagingAdapter : PagingDataAdapter<MainPagingModel, RecyclerView.ViewHo
         when (holder) {
             is MainListViewHolder -> {
                 holder.binding.apply {
-
+                    data = getItem(position)
                 }
             }
             else -> {
