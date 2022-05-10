@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.window.layout.WindowInfoTracker
 import com.example.pagingmultiview.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers

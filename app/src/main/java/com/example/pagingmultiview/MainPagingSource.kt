@@ -2,11 +2,8 @@ package com.example.pagingmultiview
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.pagingmultiview.model.ReqTestModel
 import com.example.pagingmultiview.model.RespTestModel
 import com.example.pagingmultiview.network.RetrofitClient
-import java.io.IOException
-import java.io.InputStream
 
 class MainPagingSource(
     private val retrofitClient: RetrofitClient
@@ -14,10 +11,18 @@ class MainPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RespTestModel.MsgBody> {
         return try {
             val next = params.key?: 1
-            val response = retrofitClient.getService().requestTestAPI(ReqTestModel(pageNo = next))
+            val hashMap = HashMap<String, String>()
+            hashMap["serviceKey"] = "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
+            hashMap["pageNo"] = next.toString()
+            hashMap["numOfRows"] = "10"
+            hashMap["dcode"] = "C0101"
+            hashMap["searchCondition"] = ""
+            hashMap["searchKeyword"] = ""
+
+            val response = retrofitClient.getService().requestTestAPI(hashMap)
             if (response.isSuccessful) {
                 LoadResult.Page(
-                    data = response.body()!!.msgBodyList,
+                    data = response.body()!!.msgBody,
                     prevKey = if (next == 0) null else next - 1,
                     nextKey = next + 1
                 )

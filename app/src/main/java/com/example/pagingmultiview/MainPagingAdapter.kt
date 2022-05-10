@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pagingmultiview.databinding.ItemMainListBinding
 import com.example.pagingmultiview.model.RespTestModel
 
-class MainPagingAdapter : PagingDataAdapter<RespTestModel.MsgBody, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class MainPagingAdapter: PagingDataAdapter<RespTestModel.MsgBody, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RespTestModel.MsgBody>() {
             override fun areItemsTheSame(oldItem: RespTestModel.MsgBody, newItem: RespTestModel.MsgBody): Boolean {
@@ -49,5 +49,4 @@ class MainPagingAdapter : PagingDataAdapter<RespTestModel.MsgBody, RecyclerView.
             }
         }
     }
-
 }
