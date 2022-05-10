@@ -2,6 +2,8 @@ package com.example.pagingmultiview
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.pagingmultiview.model.MainPagingModel
+import com.example.pagingmultiview.model.RespDaejeonRestaurantModel
 import com.example.pagingmultiview.model.RespDaejeonTouristModel
 import com.example.pagingmultiview.network.RetrofitClient
 
@@ -10,15 +12,16 @@ class MainPagingSource(
 ): PagingSource<Int, RespDaejeonTouristModel.MsgBody>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RespDaejeonTouristModel.MsgBody> {
         return try {
-            val next = params.key?: 1
+            val next  = params.key?: 1
             val touristHashMap = getTouristHashMap(next)
             val restaurantHasMap = getRestaurantHashMap(next)
 
             val touristResponse = retrofitClient.getService().requestDaejeonTouristList(touristHashMap)
             val restaurantResponse = retrofitClient.getService().requestDaejeonRestaurantList(restaurantHasMap)
 
-            val nextKey = if (touristResponse.body()!!.msgBody.isEmpty()) null else next + 1
-            if (touristResponse.isSuccessful) {
+            val nextKey = if (touristResponse.body()!!.msgBody.isEmpty() && restaurantResponse.body()!!.msgBody.isEmpty()) null else next + 1
+            if (touristResponse.isSuccessful && restaurantResponse.isSuccessful) {
+
                 LoadResult.Page(
                     data = touristResponse.body()!!.msgBody,
                     prevKey = if (next == 0) null else next - 1,
@@ -50,6 +53,7 @@ class MainPagingSource(
         hashMap["searchKeyword"] = ""
         return hashMap
     }
+
     private fun getRestaurantHashMap(pageNo: Int): HashMap<String, String> {
         val hashMap = HashMap<String, String>()
         hashMap["serviceKey"] = "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
@@ -60,5 +64,23 @@ class MainPagingSource(
         hashMap["searchCondition"] = "1"
         hashMap["searchKeyword"] = ""
         return hashMap
+    }
+
+    private fun mappingPagingModel(
+        touristList: List<RespDaejeonTouristModel.MsgBody>,
+        restaurantList: List<RespDaejeonRestaurantModel.MsgBody>
+    ): List<MainPagingModel> {
+        when {
+            touristList.size == restaurantList.size -> {
+                
+            }
+            touristList.size > restaurantList.size -> {
+
+            }
+            touristList.size < restaurantList.size -> {
+
+            }
+        }
+        return listOf()
     }
 }
