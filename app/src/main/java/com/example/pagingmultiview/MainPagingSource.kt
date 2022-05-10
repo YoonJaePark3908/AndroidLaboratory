@@ -20,11 +20,12 @@ class MainPagingSource(
             hashMap["searchKeyword"] = ""
 
             val response = retrofitClient.getService().requestTestAPI(hashMap)
+            val nextKey = if (response.body()!!.msgBody.isEmpty()) null else next + 1
             if (response.isSuccessful) {
                 LoadResult.Page(
                     data = response.body()!!.msgBody,
                     prevKey = if (next == 0) null else next - 1,
-                    nextKey = next + 1
+                    nextKey = nextKey
                 )
             } else {
                 LoadResult.Error(Exception("${response.errorBody()}, ${response.errorBody().toString()}"))
