@@ -2,7 +2,7 @@ package com.example.pagingmultiview.model
 
 import com.google.gson.annotations.SerializedName
 
-data class RespTestModel(
+data class RespDaejeonTouristModel(
     @SerializedName("comMsgHeader")
     var comMsgHeader: ComMsgHeader = ComMsgHeader(),
     @SerializedName("msgHeader")
@@ -10,25 +10,6 @@ data class RespTestModel(
     @SerializedName("msgBody")
     var msgBody: List<MsgBody> = listOf()
 ) {
-    data class ComMsgHeader(
-        @SerializedName("returnCode")
-        var returnCode: String = "",
-        @SerializedName("returnMessage")
-        var returnMessage: String = "",
-        @SerializedName("successYN")
-        var successYN: String = ""
-    )
-
-    data class MsgHeader(
-        @SerializedName("pageNo")
-        var pageNo: Int = 0,
-        @SerializedName("totalPage")
-        var totalPage: Int = 0,
-        @SerializedName("numOfRows")
-        var numOfRows: Int = 0,
-        @SerializedName("totalCount")
-        var totalCount: Int = 0
-    )
 
     data class MsgBody(
         @SerializedName("id")

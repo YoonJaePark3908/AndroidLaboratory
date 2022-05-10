@@ -6,31 +6,31 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pagingmultiview.databinding.ItemMainListBinding
-import com.example.pagingmultiview.model.RespTestModel
+import com.example.pagingmultiview.databinding.ItemTouristBinding
+import com.example.pagingmultiview.model.RespDaejeonTouristModel
 
-class MainPagingAdapter: PagingDataAdapter<RespTestModel.MsgBody, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class MainPagingAdapter: PagingDataAdapter<RespDaejeonTouristModel.MsgBody, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RespTestModel.MsgBody>() {
-            override fun areItemsTheSame(oldItem: RespTestModel.MsgBody, newItem: RespTestModel.MsgBody): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RespDaejeonTouristModel.MsgBody>() {
+            override fun areItemsTheSame(oldItem: RespDaejeonTouristModel.MsgBody, newItem: RespDaejeonTouristModel.MsgBody): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: RespTestModel.MsgBody, newItem: RespTestModel.MsgBody): Boolean {
+            override fun areContentsTheSame(oldItem: RespDaejeonTouristModel.MsgBody, newItem: RespDaejeonTouristModel.MsgBody): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
-    inner class MainListViewHolder(val binding: ItemMainListBinding): RecyclerView.ViewHolder(binding.root)
+    inner class MainListViewHolder(val binding: ItemTouristBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        val binding: ItemMainListBinding = DataBindingUtil.inflate(
+        val binding: ItemTouristBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.item_main_list,
+            R.layout.item_tourist,
             parent,
             false
         )
