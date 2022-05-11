@@ -9,17 +9,20 @@ import com.example.pagingmultiview.network.RetrofitClient
 
 class MainPagingSource(
     private val retrofitClient: RetrofitClient
-): PagingSource<Int, RespDaejeonTouristModel.MsgBody>() {
+) : PagingSource<Int, RespDaejeonTouristModel.MsgBody>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RespDaejeonTouristModel.MsgBody> {
         return try {
-            val next  = params.key?: 1
+            val next = params.key ?: 1
             val touristHashMap = getTouristHashMap(next)
             val restaurantHasMap = getRestaurantHashMap(next)
 
-            val touristResponse = retrofitClient.getService().requestDaejeonTouristList(touristHashMap)
-            val restaurantResponse = retrofitClient.getService().requestDaejeonRestaurantList(restaurantHasMap)
+            val touristResponse =
+                retrofitClient.getService().requestDaejeonTouristList(touristHashMap)
+            val restaurantResponse =
+                retrofitClient.getService().requestDaejeonRestaurantList(restaurantHasMap)
 
-            val nextKey = if (touristResponse.body()!!.msgBody.isEmpty() && restaurantResponse.body()!!.msgBody.isEmpty()) null else next + 1
+            val nextKey =
+                if (touristResponse.body()!!.msgBody.isEmpty() && restaurantResponse.body()!!.msgBody.isEmpty()) null else next + 1
             if (touristResponse.isSuccessful && restaurantResponse.isSuccessful) {
 
                 LoadResult.Page(
@@ -28,7 +31,13 @@ class MainPagingSource(
                     nextKey = nextKey
                 )
             } else {
-                LoadResult.Error(Exception("${touristResponse.errorBody()}, ${touristResponse.errorBody().toString()}"))
+                LoadResult.Error(
+                    Exception(
+                        "${touristResponse.errorBody()}, ${
+                            touristResponse.errorBody().toString()
+                        }"
+                    )
+                )
             }
 
         } catch (e: Exception) {
@@ -45,7 +54,8 @@ class MainPagingSource(
 
     private fun getTouristHashMap(pageNo: Int): HashMap<String, String> {
         val hashMap = HashMap<String, String>()
-        hashMap["serviceKey"] = "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
+        hashMap["serviceKey"] =
+            "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
         hashMap["pageNo"] = pageNo.toString()
         hashMap["numOfRows"] = "10"
         hashMap["dcode"] = "C0101"
@@ -56,7 +66,8 @@ class MainPagingSource(
 
     private fun getRestaurantHashMap(pageNo: Int): HashMap<String, String> {
         val hashMap = HashMap<String, String>()
-        hashMap["serviceKey"] = "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
+        hashMap["serviceKey"] =
+            "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
         hashMap["pageNo"] = pageNo.toString()
         hashMap["numOfRows"] = "10"
         hashMap["dcode"] = "C0301"
@@ -70,12 +81,51 @@ class MainPagingSource(
         touristList: List<RespDaejeonTouristModel.MsgBody>,
         restaurantList: List<RespDaejeonRestaurantModel.MsgBody>
     ): List<MainPagingModel> {
+        val result = mutableListOf<MainPagingModel>()
         when {
+
             touristList.size == restaurantList.size -> {
-                
+                restaurantList.forEachIndexed { index, msgBody ->
+                    result.add(
+                        MainPagingModel(
+                            id = msgBody.idx,
+                            type = MainPagingModel.Type.Restaurant,
+                            daejeonRestaurant = msgBody
+                        )
+                    )
+                    result.add(
+                        MainPagingModel(
+                            id = touristList[index].id,
+                            type = MainPagingModel.Type.Tourist,
+                            daejeonTourist = touristList[index]
+                        )
+                    )
+                }
             }
             touristList.size > restaurantList.size -> {
-
+                restaurantList.forEachIndexed { index, msgBody ->
+                    result.add(
+                        MainPagingModel(
+                            id = msgBody.idx,
+                            type = MainPagingModel.Type.Restaurant,
+                            daejeonRestaurant = msgBody
+                        )
+                    )
+                    result.add(
+                        MainPagingModel(
+                            id = touristList[index].id,
+                            type = MainPagingModel.Type.Tourist,
+                            daejeonTourist = touristList[index]
+                        )
+                    )
+                }
+                for (i in restaurantList.lastIndex until touristList.size) {
+                    MainPagingModel(
+                        id = touristList[i].id,
+                        type = MainPagingModel.Type.Tourist,
+                        daejeonTourist = touristList[i]
+                    )
+                }
             }
             touristList.size < restaurantList.size -> {
 

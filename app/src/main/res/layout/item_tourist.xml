@@ -11,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:background="#f1f1f1"
         android:padding="10dp"
         android:layout_marginBottom="10dp">
@@ -23,9 +23,10 @@
             android:text="관광지 이름 : "
             android:textColor="@color/black"
             android:textSize="14dp"
-
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/label_address"
+            />
 
         <TextView
             android:id="@+id/txt_name"
@@ -46,7 +47,9 @@
             android:textColor="@color/black"
             android:textSize="14dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_name" />
+            app:layout_constraintTop_toBottomOf="@+id/label_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
         <TextView
             android:id="@+id/txt_address"

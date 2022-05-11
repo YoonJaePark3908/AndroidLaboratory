@@ -13,6 +13,8 @@ data class RespDaejeonRestaurantModel(
     data class MsgBody(
         @SerializedName("idx")
         var idx: String = "",
+        @SerializedName("contents1")
+        var contents1: String = "",
         @SerializedName("dCode")
         var dCode: String = "",
         @SerializedName("dCodeNm")
@@ -31,5 +33,7 @@ data class RespDaejeonRestaurantModel(
         var telKuk: String = "",
         @SerializedName("telNo")
         var telNo: String = "",
+        @SerializedName("topMenu")
+        var topMenu: String = "",
     )
 }
