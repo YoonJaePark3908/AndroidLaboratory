@@ -35,6 +35,9 @@
             android:text="@{data.name}"
             android:textColor="@color/black"
             android:textSize="14dp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:gravity="start"
             android:layout_marginEnd="5dp"
             app:layout_constraintStart_toEndOf="@+id/label_name"
@@ -70,6 +73,9 @@
             android:text="@{data.topMenu}"
             android:textColor="@color/black"
             android:textSize="14dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
             android:gravity="start"
             android:layout_marginEnd="5dp"
             app:layout_constraintStart_toEndOf="@+id/label_top_menu"
@@ -92,16 +98,21 @@
         <TextView
             android:id="@+id/txt_content"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="@{data.contents1}"
             android:textColor="@color/black"
             android:textSize="14dp"
             android:gravity="start"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             app:layout_constraintStart_toStartOf="@+id/label_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_content" />
+            app:layout_constraintTop_toBottomOf="@+id/label_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
