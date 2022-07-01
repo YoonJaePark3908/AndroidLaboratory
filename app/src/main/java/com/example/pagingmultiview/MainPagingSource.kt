@@ -13,8 +13,8 @@ import kotlin.collections.HashMap
 class MainPagingSource(
     private val retrofitClient: RetrofitClient
 ) : PagingSource<Int, MainPagingModel>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MainPagingModel> {
-        return try {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MainPagingModel> =
+        try {
             val next = params.key ?: 1
             val touristHashMap = getTouristHashMap(next)
             val restaurantHasMap = getRestaurantHashMap(next)
@@ -42,39 +42,38 @@ class MainPagingSource(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
 
-    override fun getRefreshKey(state: PagingState<Int, MainPagingModel>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
+
+    override fun getRefreshKey(state: PagingState<Int, MainPagingModel>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
-    }
 
-    private fun getTouristHashMap(pageNo: Int): HashMap<String, String> {
-        val hashMap = HashMap<String, String>()
-        hashMap["serviceKey"] =
-            "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
-        hashMap["pageNo"] = pageNo.toString()
-        hashMap["numOfRows"] = "10"
-        hashMap["dcode"] = "C0101"
-        hashMap["searchCondition"] = ""
-        hashMap["searchKeyword"] = ""
-        return hashMap
-    }
 
-    private fun getRestaurantHashMap(pageNo: Int): HashMap<String, String> {
-        val hashMap = HashMap<String, String>()
-        hashMap["serviceKey"] =
-            "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
-        hashMap["pageNo"] = pageNo.toString()
-        hashMap["numOfRows"] = "10"
-        hashMap["dcode"] = "C0301"
-        hashMap["dgu"] = "C0601"
-        hashMap["searchCondition"] = "1"
-        hashMap["searchKeyword"] = ""
-        return hashMap
-    }
+    private fun getTouristHashMap(pageNo: Int): HashMap<String, String> =
+        HashMap<String, String>().apply {
+            this["serviceKey"] = "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
+            this["pageNo"] = pageNo.toString()
+            this["numOfRows"] = "10"
+            this["dcode"] = "C0101"
+            this["searchCondition"] = ""
+            this["searchKeyword"] = ""
+        }
+    
+
+    private fun getRestaurantHashMap(pageNo: Int): HashMap<String, String> =
+        HashMap<String, String>().apply {
+            this["serviceKey"] =
+                "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
+            this["pageNo"] = pageNo.toString()
+            this["numOfRows"] = "10"
+            this["dcode"] = "C0301"
+            this["dgu"] = "C0601"
+            this["searchCondition"] = "1"
+            this["searchKeyword"] = ""
+        }
+
 
     private fun mappingPagingModel(
         touristList: List<RespDaejeonTouristModel.MsgBody>,
