@@ -1,12 +1,10 @@
 package com.example.pagingmultiview.model
 
-import com.google.gson.annotations.SerializedName
-
 data class MainPagingModel(
     var id: String = "",
     var type: Type = Type.Restaurant,
-    var daejeonRestaurant: RespDaejeonRestaurantModel.MsgBody = RespDaejeonRestaurantModel.MsgBody(),
-    var daejeonTourist: RespDaejeonTouristModel.MsgBody = RespDaejeonTouristModel.MsgBody()
+    var daejeonRestaurant: RestaurantModel.Data = RestaurantModel.Data(),
+    var daejeonTourist: TouristModel.Data = TouristModel.Data()
 ) {
     enum class Type {
         Restaurant,

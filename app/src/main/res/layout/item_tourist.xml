@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.example.pagingmultiview.model.RespDaejeonTouristModel.MsgBody" />
+            type="com.example.pagingmultiview.model.TouristModel.Data" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

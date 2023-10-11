@@ -3,31 +3,27 @@ package com.example.pagingmultiview
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pagingmultiview.model.MainPagingModel
-import com.example.pagingmultiview.model.RespDaejeonRestaurantModel
-import com.example.pagingmultiview.model.RespDaejeonTouristModel
-import com.example.pagingmultiview.network.RetrofitClient
+import com.example.pagingmultiview.model.RestaurantModel
+import com.example.pagingmultiview.model.TouristModel
 import java.lang.Integer.min
-import java.util.*
-import kotlin.collections.HashMap
+import java.util.LinkedList
 
-class MainPagingSource(
-    private val retrofitClient: RetrofitClient
-) : PagingSource<Int, MainPagingModel>() {
+class MainPagingSource : PagingSource<Int, MainPagingModel>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MainPagingModel> =
         try {
             val next = params.key ?: 1
-            val touristHashMap = getTouristHashMap(next)
-            val restaurantHasMap = getRestaurantHashMap(next)
 
-            val touristResponse =
-                retrofitClient.getService().requestDaejeonTouristList(touristHashMap)
-            val restaurantResponse =
-                retrofitClient.getService().requestDaejeonRestaurantList(restaurantHasMap)
+            //TODO mock data 추가
+//            val touristResponse =
+//                retrofitClient.getService().requestDaejeonTouristList(touristHashMap)
+//            val restaurantResponse =
+//                retrofitClient.getService().requestDaejeonRestaurantList(restaurantHasMap)
 
-            val nextKey =
-                if (touristResponse.body()!!.msgBody.isEmpty() && restaurantResponse.body()!!.msgBody.isEmpty()) null else next + 1
-            if (touristResponse.isSuccessful && restaurantResponse.isSuccessful) {
-                val pagingModelList = mappingPagingModel(touristResponse.body()!!.msgBody, restaurantResponse.body()!!.msgBody)
+//            val nextKey = if (touristResponse.body()!!.data.isEmpty() && restaurantResponse.body()!!.data.isEmpty()) null else next + 1
+            //TODO nextKey
+            val nextKey = if (true) null else next + 1
+            if (true) {
+                val pagingModelList = mappingPagingModel(listOf(), listOf())
                 LoadResult.Page(
                     data = pagingModelList,
                     prevKey = if (next == 0) null else next - 1,
@@ -35,7 +31,7 @@ class MainPagingSource(
                 )
             } else {
                 LoadResult.Error(
-                    Exception("${touristResponse.errorBody()}, ${touristResponse.errorBody().toString()}")
+                    Exception("error")
                 )
             }
 
@@ -50,34 +46,9 @@ class MainPagingSource(
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
 
-
-    private fun getTouristHashMap(pageNo: Int): HashMap<String, String> =
-        HashMap<String, String>().apply {
-            this["serviceKey"] = "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
-            this["pageNo"] = pageNo.toString()
-            this["numOfRows"] = "10"
-            this["dcode"] = "C0101"
-            this["searchCondition"] = ""
-            this["searchKeyword"] = ""
-        }
-    
-
-    private fun getRestaurantHashMap(pageNo: Int): HashMap<String, String> =
-        HashMap<String, String>().apply {
-            this["serviceKey"] =
-                "THnjzgvbJb4e6Do4H22ehdKY0i1MSGfgzbEeOddm5QPipubruRWCa85lj1dS95Ji/BcaIiPUOPhfr+ziyLFgvw=="
-            this["pageNo"] = pageNo.toString()
-            this["numOfRows"] = "10"
-            this["dcode"] = "C0301"
-            this["dgu"] = "C0601"
-            this["searchCondition"] = "1"
-            this["searchKeyword"] = ""
-        }
-
-
     private fun mappingPagingModel(
-        touristList: List<RespDaejeonTouristModel.MsgBody>,
-        restaurantList: List<RespDaejeonRestaurantModel.MsgBody>
+        touristList: List<TouristModel.Data>,
+        restaurantList: List<RestaurantModel.Data>
     ): List<MainPagingModel> {
         val result = LinkedList<MainPagingModel>()
         val minSize = min(touristList.size, restaurantList.size)
