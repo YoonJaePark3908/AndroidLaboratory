@@ -55,12 +55,25 @@ class MainPagingAdapter: PagingDataAdapter<MainPagingModel, RecyclerView.ViewHol
         when (holder) {
             is TouristViewHolder -> {
                 holder.binding.apply {
-                    data = getItem(position)?.daejeonTourist
+                    getItem(position)?.let { mainPagingModel ->
+                        data = mainPagingModel.tourist.apply {
+                            addr1 = "${this.id}번째 주소명"
+                            name = "${this.id}번째 여행지 이름"
+
+                        }
+                    }
                 }
             }
             is RestaurantViewHolder -> {
                 holder.binding.apply {
-                    data = getItem(position)?.daejeonRestaurant
+                    getItem(position)?.let { mainPagingModel ->
+                        data = mainPagingModel.restaurant.apply {
+                            name = "${this.idx}번째 음식점 이름"
+                            contents1 = "${this.idx}번째 음식점 소개 내용"
+                            topMenu = "${this.idx}번째 음식점 인기 메뉴"
+                        }
+                    }
+                    data = getItem(position)?.restaurant
                 }
             }
         }

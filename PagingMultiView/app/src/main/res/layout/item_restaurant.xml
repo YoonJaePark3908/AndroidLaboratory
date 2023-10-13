@@ -6,13 +6,13 @@
 
         <variable
             name="data"
-            type="com.example.pagingmultiview.model.RestaurantModel.Data" />
+            type="com.example.pagingmultiview.model.RestaurantModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/purple_200"
+        android:background="@color/yellow_ffFFD600"
         android:padding="10dp"
         android:layout_marginBottom="10dp">
 

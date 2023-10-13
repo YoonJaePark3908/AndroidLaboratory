@@ -3,8 +3,8 @@ package com.example.pagingmultiview.model
 data class MainPagingModel(
     var id: String = "",
     var type: Type = Type.Restaurant,
-    var daejeonRestaurant: RestaurantModel.Data = RestaurantModel.Data(),
-    var daejeonTourist: TouristModel.Data = TouristModel.Data()
+    var restaurant: RestaurantModel = RestaurantModel(),
+    var tourist: TouristModel= TouristModel()
 ) {
     enum class Type {
         Restaurant,
