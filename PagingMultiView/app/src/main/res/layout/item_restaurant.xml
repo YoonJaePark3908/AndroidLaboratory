@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.example.pagingmultiview.model.RestaurantModel" />
+            type="com.example.pagingmultiview.model.MainPagingModel.RestaurantModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -16,7 +16,13 @@ class MainPagingAdapter: PagingDataAdapter<MainPagingModel, RecyclerView.ViewHol
         const val VIEW_TYPE_RESTAURANT = 2
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MainPagingModel>() {
             override fun areItemsTheSame(oldItem: MainPagingModel, newItem: MainPagingModel): Boolean {
-                return oldItem.id == newItem.id
+                return if (oldItem is MainPagingModel.TouristModel && newItem is MainPagingModel.TouristModel) {
+                    oldItem.id == newItem.id
+                } else if(oldItem is MainPagingModel.RestaurantModel && newItem is MainPagingModel.RestaurantModel) {
+                    oldItem.idx == newItem.idx
+                } else {
+                    false
+                }
             }
 
             override fun areContentsTheSame(oldItem: MainPagingModel, newItem: MainPagingModel): Boolean {
@@ -55,25 +61,19 @@ class MainPagingAdapter: PagingDataAdapter<MainPagingModel, RecyclerView.ViewHol
         when (holder) {
             is TouristViewHolder -> {
                 holder.binding.apply {
-                    getItem(position)?.let { mainPagingModel ->
-                        data = mainPagingModel.tourist.apply {
-                            addr1 = "${this.id}번째 주소명"
-                            name = "${this.id}번째 여행지 이름"
-
-                        }
+                    val tourist = getItem(position)
+                    if (tourist is MainPagingModel.TouristModel) {
+                        data = tourist
                     }
+
                 }
             }
             is RestaurantViewHolder -> {
                 holder.binding.apply {
-                    getItem(position)?.let { mainPagingModel ->
-                        data = mainPagingModel.restaurant.apply {
-                            name = "${this.idx}번째 음식점 이름"
-                            contents1 = "${this.idx}번째 음식점 소개 내용"
-                            topMenu = "${this.idx}번째 음식점 인기 메뉴"
-                        }
+                    val restaurant = getItem(position)
+                    if (restaurant is MainPagingModel.RestaurantModel) {
+                        data = restaurant
                     }
-                    data = getItem(position)?.restaurant
                 }
             }
         }
@@ -81,7 +81,7 @@ class MainPagingAdapter: PagingDataAdapter<MainPagingModel, RecyclerView.ViewHol
 
     override fun getItemViewType(position: Int): Int {
         getItem(position)?.let {
-            return if (it.type == MainPagingModel.Type.Tourist) VIEW_TYPE_TOURIST
+            return if (it is MainPagingModel.TouristModel) VIEW_TYPE_TOURIST
             else VIEW_TYPE_RESTAURANT
         }
         return 0

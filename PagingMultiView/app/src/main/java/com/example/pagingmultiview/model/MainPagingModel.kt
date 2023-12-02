@@ -1,13 +1,16 @@
 package com.example.pagingmultiview.model
 
-data class MainPagingModel(
-    var id: String = "",
-    var type: Type = Type.Restaurant,
-    var restaurant: RestaurantModel = RestaurantModel(),
-    var tourist: TouristModel= TouristModel()
-) {
-    enum class Type {
-        Restaurant,
-        Tourist
-    }
+sealed interface MainPagingModel {
+    data class RestaurantModel(
+        val idx: String = "",
+        val name: String = "",
+        val contents1: String = "",
+        val topMenu: String = ""
+    ): MainPagingModel
+
+    data class TouristModel(
+        val id: String = "",
+        val addr1: String = "",
+        val name: String = "",
+    ): MainPagingModel
 }

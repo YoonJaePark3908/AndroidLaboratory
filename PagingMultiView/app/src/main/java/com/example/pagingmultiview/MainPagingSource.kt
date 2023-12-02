@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pagingmultiview.model.MainPagingModel
-import com.example.pagingmultiview.model.RestaurantModel
-import com.example.pagingmultiview.model.TouristModel
-import com.example.pagingmultiview.model.test.restaurantTestDataList
-import com.example.pagingmultiview.model.test.touristTestDataList
-import java.lang.Integer.min
+import com.example.pagingmultiview.model.mock.restaurantTestDataList
+import com.example.pagingmultiview.model.mock.touristTestDataList
 import java.util.LinkedList
 
 class MainPagingSource: PagingSource<Int, MainPagingModel>() {
@@ -43,26 +40,25 @@ class MainPagingSource: PagingSource<Int, MainPagingModel>() {
         }
 
     private fun mappingPagingModel(
-        touristList: List<TouristModel>,
-        restaurantList: List<RestaurantModel>
+        touristList: List<MainPagingModel.TouristModel>,
+        restaurantList: List<MainPagingModel.RestaurantModel>
     ): List<MainPagingModel> {
         val result = LinkedList<MainPagingModel>()
         for (index in 0 until 10) { //10개 임의로 고정
             if (restaurantList.isNotEmpty()) {
                 result.add(
-                    MainPagingModel(
-                        id = restaurantList[index].idx,
-                        type = MainPagingModel.Type.Restaurant,
-                        restaurant = restaurantList[index]
+                    restaurantList[index].copy(
+                        name = "${restaurantList[index].idx}번째 음식점 이름",
+                        contents1 = "${restaurantList[index].idx}번째 음식점 소개 내용",
+                        topMenu = "${restaurantList[index].idx}번째 음식점 인기 메뉴"
                     )
                 )
             }
             if (touristList.isNotEmpty()) {
                 result.add(
-                    MainPagingModel(
-                        id = touristList[index].id,
-                        type = MainPagingModel.Type.Tourist,
-                        tourist = touristList[index]
+                    touristList[index].copy(
+                        addr1 = "${touristList[index].id}번째 주소명",
+                        name = "${touristList[index].id}번째 여행지 이름"
                     )
                 )
             }
