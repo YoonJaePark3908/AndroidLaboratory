@@ -1,5 +1,5 @@
 <p>
-    <img src="./images/laboratory.png" width="200">
+    <img src="./images/laboratory2.png" width="200">
 </p> 
 
 ### AndroidLaboratory
