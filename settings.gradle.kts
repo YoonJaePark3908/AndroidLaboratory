@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidLaboratory"
 include(":laboratory")
 include(":pagingmultiview")
+include(":network")
